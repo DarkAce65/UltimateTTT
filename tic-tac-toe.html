@@ -21,6 +21,12 @@
 						transition: width 0.25s, height 0.25s;
 			}
 
+			.possible:after{
+				background: #FFF98C;
+				width: 45px;
+				height: 45px;
+			}
+
 			.X:after{
 				background: #FFA38C;
 				width: 45px;
@@ -29,18 +35,6 @@
 
 			.O:after{
 				background: #8CA3FF;
-				width: 45px;
-				height: 45px;
-			}
-
-			.possible:after{
-				content: "";
-				display: inline-block;
-				position: relative;
-				top: 2px;
-				left: 0;
-				background: #FFF98C;
-				border-radius: 5px;
 				width: 45px;
 				height: 45px;
 			}
@@ -71,7 +65,9 @@
 		</style>
 	</head>
 	<body>
+		<h1>Ultimate Tic Tac Toe</h1>
 		<table id="ultimate"></table>
+		<p id="turn">X</p>
 		<script>
 			var turn = true; // true: X, false: O
 			var grid = [
@@ -118,8 +114,10 @@
 					var j = Number($(this).data("column"));
 					console.log(row, col, i, j);
 					if (grid[row][col][i][j] === "") {
+						$("#turn").html(turn ? "O" : "X");
 						turn = !turn;
 						grid[row][col][i][j] = turn ? "O" : "X";
+						$(".possible").removeClass("possible");
 						$(this).addClass(grid[row][col][i][j]);
 					}
 					/*if (winner()) {
@@ -132,6 +130,12 @@
 						grid = [[[["", "", ""], ["", "", ""], ["", "", ""]], [["", "", ""], ["", "", ""], ["", "", ""]], [["", "", ""], ["", "", ""], ["", "", ""]] ], [ [["", "", ""], ["", "", ""], ["", "", ""]], [["", "", ""], ["", "", ""], ["", "", ""]], [["", "", ""], ["", "", ""], ["", "", ""]] ], [ [["", "", ""], ["", "", ""], ["", "", ""]], [["", "", ""], ["", "", ""], ["", "", ""]], [["", "", ""], ["", "", ""], ["", "", ""]]]];
 						turn = false;
 					}
+					$("table").each(function(index, value){
+						if($(value).data("row") == i && $(value).data("column") == j){
+							console.log(value, $(value).find("td"));
+							$(value).find("td").addClass("possible");
+						}
+					});
 				});
 			});
 			function tie() {
