@@ -4,7 +4,7 @@
 		<title>Tic Tac Toe</title>
 		<script src="http://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
 		<style>
-			table table td:after{
+			table table td::after{
 				content: "";
 				display: inline-block;
 				position: relative;
@@ -14,14 +14,15 @@
 				border-radius: 5px;
 				width: 0px;
 				height: 0px;
-				-webkit-transition: width 0.25s, height 0.25s;
-				   -moz-transition: width 0.25s, height 0.25s;
-					-ms-transition: width 0.25s, height 0.25s;
-					 -o-transition: width 0.25s, height 0.25s;
-						transition: width 0.25s, height 0.25s;
+
+				-webkit-transition: 0.25s;
+				   -moz-transition: 0.25s;
+					-ms-transition: 0.25s;
+					 -o-transition: 0.25s;
+						transition: 0.25s;
 			}
 
-			.possible:after{
+			.possible::after{
 				background: #FFF98C;
 				width: 45px;
 				height: 45px;
@@ -37,13 +38,13 @@
 				 @-o-keyframes 'blink'{0% {opacity:1;} 50% {opacity:0.7;} 100% {opacity:1;}}
 					@keyframes 'blink'{0% {opacity:1;} 50% {opacity:0.7;} 100% {opacity:1;}}
 
-			.X:after{
+			.X::after{
 				background: #FFA38C;
 				width: 45px;
 				height: 45px;
 			}
 
-			.O:after{
+			.O::after{
 				background: #8CA3FF;
 				width: 45px;
 				height: 45px;
@@ -51,18 +52,30 @@
 			
 			table.X{
 				background: #FFD7BF;
+				border-radius: 5px;
 			}
 
 			table.O{
 				background: #BFD7FF;
+				border-radius: 5px;
 			}
 
-			td:nth-child(2) {
+			#ultimate > tbody > tr > td:nth-child(2) {
+				border-left: 3px solid #555555;
+				border-right: 3px solid #555555;
+			}
+
+			#ultimate > tbody > tr:nth-child(2) > td {
+				border-top: 3px solid #555555;
+				border-bottom: 3px solid #555555;
+			}
+
+			table table td:nth-child(2) {
 				border-left: 1px solid #555555;
 				border-right: 1px solid #555555;
 			}
 
-			tr:nth-child(2) > td {
+			table table tr:nth-child(2) > td {
 				border-top: 1px solid #555555;
 				border-bottom: 1px solid #555555;
 			}
@@ -80,12 +93,19 @@
 			table {
 				border-collapse: collapse;
 			}
+
+			div > * {
+				margin: 0 auto;
+				text-align: center;
+			}
 		</style>
 	</head>
 	<body>
-		<h1>Ultimate Tic Tac Toe</h1>
-		<table id="ultimate"></table>
-		<p id="turn">X</p>
+		<div>
+			<h1>Ultimate Tic Tac Toe</h1>
+			<table id="ultimate"></table>
+			<p id="turn">X</p>
+		</div>
 		<script>
 			var turn = true; // true: X, false: O
 			var grid = [
@@ -133,14 +153,13 @@
 						var col = Number($($(this).parents("table:not(#ultimate)")[0]).data("column"));
 						var i = Number($(this).data("row"));
 						var j = Number($(this).data("column"));
-						console.log(row, col, i, j);
-						if (grid[row][col][i][j] === "") {
-							$("#turn").html(turn ? "O" : "X");
-							turn = !turn;
-							grid[row][col][i][j] = turn ? "O" : "X";
-							$(".possible").removeClass("possible");
-							$(this).addClass(grid[row][col][i][j]);
-						}
+
+						$("#turn").html(turn ? "O" : "X");
+						turn = !turn;
+						grid[row][col][i][j] = turn ? "O" : "X";
+						$(".possible").removeClass("possible");
+						$(this).addClass(grid[row][col][i][j]);
+
 						if (winSquare(row, col)) {
 							grid[row][col] = turn ? "O" : "X";
 							$("table").each(function(index, value) {
