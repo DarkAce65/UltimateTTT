@@ -4,6 +4,20 @@
 		<title>Tic Tac Toe</title>
 		<script src="http://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
 		<style>
+			table table {
+				margin: 10px;
+			}
+
+			table table td {
+				height: 50px;
+				width: 50px;
+				text-align: center;
+			}
+
+			table {
+				border-collapse: collapse;
+			}
+
 			table table td::after{
 				content: "";
 				display: inline-block;
@@ -79,32 +93,13 @@
 				border-top: 1px solid #555555;
 				border-bottom: 1px solid #555555;
 			}
-
-			table table {
-				margin: 10px;
-			}
-
-			table table td {
-				height: 50px;
-				width: 50px;
-				text-align: center;
-			}
-
-			table {
-				border-collapse: collapse;
-			}
-
-			div > * {
-				margin: 0 auto;
-				text-align: center;
-			}
 		</style>
 	</head>
 	<body>
-		<div>
+		<div style="text-align: center">
 			<h1>Ultimate Tic Tac Toe</h1>
-			<table id="ultimate"></table>
-			<p>It is <span id="turn" style="color: red">X</span>'s turn.</p>
+			<table id="ultimate" style="margin: auto"></table>
+			<h3>It is <span id="turn" style="color: red">X</span>'s turn.</h3>
 		</div>
 		<script>
 			var turn = true; // true: X, false: O
@@ -169,26 +164,29 @@
 								}
 							});
 						}
+
 						if (winner()) {
 							alert((turn ? "O" : "X") + " won! Congrats!");
 							grid = [[[["", "", ""], ["", "", ""], ["", "", ""]], [["", "", ""], ["", "", ""], ["", "", ""]], [["", "", ""], ["", "", ""], ["", "", ""]]], [[["", "", ""], ["", "", ""], ["", "", ""]], [["", "", ""], ["", "", ""], ["", "", ""]], [["", "", ""], ["", "", ""], ["", "", ""]] ], [[["", "", ""], ["", "", ""], ["", "", ""]], [["", "", ""], ["", "", ""], ["", "", ""]], [["", "", ""], ["", "", ""], ["", "", ""]]]];
 							turn = false;
 						}
-						if (tie()) {
+						else if (tie()) {
 							alert("Tie!");
 							grid = [[[["", "", ""], ["", "", ""], ["", "", ""]], [["", "", ""], ["", "", ""], ["", "", ""]], [["", "", ""], ["", "", ""], ["", "", ""]]], [[["", "", ""], ["", "", ""], ["", "", ""]], [["", "", ""], ["", "", ""], ["", "", ""]], [["", "", ""], ["", "", ""], ["", "", ""]] ], [[["", "", ""], ["", "", ""], ["", "", ""]], [["", "", ""], ["", "", ""], ["", "", ""]], [["", "", ""], ["", "", ""], ["", "", ""]]]];
 							turn = false;
 						}
-						$("table").each(function(index, value) {
-							if ($(value).data("row") == i && $(value).data("column") == j) {
-								if ($.isArray(grid[i][j])) {
-									$(value).find("td:not(.X, .O)").addClass("possible");
+						else {
+							$("table").each(function(index, value) {
+								if ($(value).data("row") == i && $(value).data("column") == j) {
+									if ($.isArray(grid[i][j])) {
+										$(value).find("td:not(.X, .O)").addClass("possible");
+									}
+									else {
+										$("table table:not(.X, .O) td:not(.X, .O)").addClass("possible");
+									}
 								}
-								else {
-									$("table table:not(.X, .O) td:not(.X, .O)").addClass("possible");
-								}
-							}
-						});
+							});
+						}
 					}
 				});
 			});
