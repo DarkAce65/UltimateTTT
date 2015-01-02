@@ -163,8 +163,8 @@
 								if ($.isArray(grid[i][j])) {
 									$(value).find("td:not(.X, .O)").addClass("possible");
 								}
-								else{
-									$("td:not(.X, .O)").addClass("possible");
+								else {
+									$("td:not(.X, .O)").not($(value).find("td:not(.X, .O)")).addClass("possible");
 								}
 							}
 						});
