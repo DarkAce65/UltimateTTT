@@ -25,7 +25,17 @@
 				background: #FFF98C;
 				width: 45px;
 				height: 45px;
+				cursor: pointer;
+				-webkit-animation: blink 1.5s infinite;
+				   -moz-animation: blink 1.5s infinite;
+					 -o-animation: blink 1.5s infinite;
+						animation: blink 1.5s infinite;
 			}
+
+			@-webkit-keyframes 'blink'{0% {opacity:1;} 50% {opacity:0.7;} 100% {opacity:1;}}
+			   @-moz-keyframes 'blink'{0% {opacity:1;} 50% {opacity:0.7;} 100% {opacity:1;}}
+				 @-o-keyframes 'blink'{0% {opacity:1;} 50% {opacity:0.7;} 100% {opacity:1;}}
+					@keyframes 'blink'{0% {opacity:1;} 50% {opacity:0.7;} 100% {opacity:1;}}
 
 			.X:after{
 				background: #FFA38C;
@@ -37,6 +47,13 @@
 				background: #8CA3FF;
 				width: 45px;
 				height: 45px;
+			}
+			table.X{
+				background: #FFA38C;
+			}
+
+			table.O{
+				background: #8CA3FF;
 			}
 
 			td:nth-child(2) {
@@ -124,7 +141,12 @@
 							$(this).addClass(grid[row][col][i][j]);
 						}
 						if (winSquare(row, col)) {
-							
+							grid[row][col] = turn ? "O" : "X";
+							$("table").each(function(index, value) {
+								if ($(value).data("row") == row && $(value).data("column") == col) {
+									$(value).addClass(turn ? "O" : "X");
+								}
+							});
 						}
 						if (winner()) {
 							alert((turn ? "O" : "X") + " won! Congrats!");
@@ -177,20 +199,19 @@
 				return result;
 			}
 			function winSquare(row, col) {
-				console.log(row, col);
 				var result = false;
 				for (var i = 0; i < 3; i++) {
-					result = result || JSON.stringify(grid[i]) === JSON.stringify(["X","X","X"]);
-					result = result || JSON.stringify(grid[i]) === JSON.stringify(["O","O","O"]);
+					result = result || JSON.stringify(grid[row][col][i]) === JSON.stringify(["X","X","X"]);
+					result = result || JSON.stringify(grid[row][col][i]) === JSON.stringify(["O","O","O"]);
 			
-					result = result || JSON.stringify([grid[0][i], grid[1][i], grid[2][i]]) === JSON.stringify(["X", "X", "X"]);
-					result = result || JSON.stringify([grid[0][i], grid[1][i], grid[2][i]]) === JSON.stringify(["O", "O", "O"]);
+					result = result || JSON.stringify([grid[row][col][0][i], grid[row][col][1][i], grid[row][col][2][i]]) === JSON.stringify(["X", "X", "X"]);
+					result = result || JSON.stringify([grid[row][col][0][i], grid[row][col][1][i], grid[row][col][2][i]]) === JSON.stringify(["O", "O", "O"]);
 				}
-				result = result || JSON.stringify([grid[0][0], grid[1][1], grid[2][2]]) === JSON.stringify(["X", "X", "X"]);
-				result = result || JSON.stringify([grid[0][0], grid[1][1], grid[2][2]]) === JSON.stringify(["O", "O", "O"]);
+				result = result || JSON.stringify([grid[row][col][0][0], grid[row][col][1][1], grid[row][col][2][2]]) === JSON.stringify(["X", "X", "X"]);
+				result = result || JSON.stringify([grid[row][col][0][0], grid[row][col][1][1], grid[row][col][2][2]]) === JSON.stringify(["O", "O", "O"]);
 			
-				result = result || JSON.stringify([grid[0][2], grid[1][1], grid[2][0]]) === JSON.stringify(["X", "X", "X"]);
-				result = result || JSON.stringify([grid[0][2], grid[1][1], grid[2][0]]) === JSON.stringify(["O", "O", "O"]);
+				result = result || JSON.stringify([grid[row][col][0][2], grid[row][col][1][1], grid[row][col][2][0]]) === JSON.stringify(["X", "X", "X"]);
+				result = result || JSON.stringify([grid[row][col][0][2], grid[row][col][1][1], grid[row][col][2][0]]) === JSON.stringify(["O", "O", "O"]);
 				return result;
 			}
 		</script>
