@@ -4,22 +4,50 @@
 		<title>Tic Tac Toe</title>
 		<script src="http://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
 		<style>
+			.X:after{
+				content: "";
+				display: inline-block;
+				position: relative;
+				top: 2px;
+				left: 0;
+				background: rgba(255, 52, 0, 0.45);
+				border-radius: 5px;
+				width: 45px;
+				height: 45px;
+			}
+
+			.O:after{
+				content: "";
+				display: inline-block;
+				position: relative;
+				top: 2px;
+				left: 0;
+				background: rgba(0, 52, 255, 0.45);
+				border-radius: 5px;
+				width: 45px;
+				height: 45px;
+			}
+
 			td:nth-child(2) {
 				border-left: 1px solid #555555;
 				border-right: 1px solid #555555;
 			}
+
 			tr:nth-child(2) > td {
 				border-top: 1px solid #555555;
 				border-bottom: 1px solid #555555;
 			}
+
 			table table {
 				margin: 10px;
 			}
+
 			table table td {
 				height: 50px;
 				width: 50px;
 				text-align: center;
 			}
+
 			table {
 				border-collapse: collapse;
 			}
@@ -75,7 +103,7 @@
 					if (grid[row][col][i][j] === "") {
 						turn = !turn;
 						grid[row][col][i][j] = turn ? "O" : "X";
-						$(this).html(grid[row][col][i][j]);
+						$(this).addClass(grid[row][col][i][j]);
 					}
 					/*if (winner()) {
 						alert((turn ? "O" : "X") + " won! Congrats!");
