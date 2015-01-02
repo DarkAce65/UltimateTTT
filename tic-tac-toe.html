@@ -104,7 +104,7 @@
 		<div>
 			<h1>Ultimate Tic Tac Toe</h1>
 			<table id="ultimate"></table>
-			<p id="turn">X</p>
+			<p>It is <span id="turn" style="color: red">X</span>'s turn.</p>
 		</div>
 		<script>
 			var turn = true; // true: X, false: O
@@ -155,6 +155,7 @@
 						var j = Number($(this).data("column"));
 
 						$("#turn").html(turn ? "O" : "X");
+						$("#turn").css("color", turn ? "blue" : "red");
 						turn = !turn;
 						grid[row][col][i][j] = turn ? "O" : "X";
 						$(".possible").removeClass("possible");
