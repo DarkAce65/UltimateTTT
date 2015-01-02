@@ -25,6 +25,28 @@
 				background: #FFF98C;
 				width: 45px;
 				height: 45px;
+				
+				-webkit-animation-direction: normal;
+				        animation-direction: normal;
+				-webkit-animation-duration: 1.5s;
+				        animation-duration: 1.5s;
+				-webkit-animation-iteration-count: infinite;
+				        animation-iteration-count: infinite;
+				-webkit-animation-name: blink;
+				        animation-name: blink;
+				-webkit-animation-timing-function: ease-in-out;
+				        animation-timing-function: ease-in-out;
+			}
+			@-webkit-keyframes 'blink' {
+				0% {
+					opacity:1;
+				}
+				50% {
+					opacity:0.7;
+				}
+				100% {
+					opacity:1;
+				}
 			}
 
 			.X:after{
