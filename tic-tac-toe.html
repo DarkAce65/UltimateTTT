@@ -107,53 +107,77 @@
 				}
 			
 				$("#ultimate").html(innerhtml);
+				$("table table td").addClass("possible");
+
 				$("table table td").click(function() {
-					var row = Number($($(this).parents("table:not(#ultimate)")[0]).data("row"));
-					var col = Number($($(this).parents("table:not(#ultimate)")[0]).data("column"));
-					var i = Number($(this).data("row"));
-					var j = Number($(this).data("column"));
-					console.log(row, col, i, j);
-					if (grid[row][col][i][j] === "") {
-						$("#turn").html(turn ? "O" : "X");
-						turn = !turn;
-						grid[row][col][i][j] = turn ? "O" : "X";
-						$(".possible").removeClass("possible");
-						$(this).addClass(grid[row][col][i][j]);
-					}
-					/*if (winner()) {
-						alert((turn ? "O" : "X") + " won! Congrats!");
-						grid = [[[["", "", ""], ["", "", ""], ["", "", ""]], [["", "", ""], ["", "", ""], ["", "", ""]], [["", "", ""], ["", "", ""], ["", "", ""]] ], [ [["", "", ""], ["", "", ""], ["", "", ""]], [["", "", ""], ["", "", ""], ["", "", ""]], [["", "", ""], ["", "", ""], ["", "", ""]] ], [ [["", "", ""], ["", "", ""], ["", "", ""]], [["", "", ""], ["", "", ""], ["", "", ""]], [["", "", ""], ["", "", ""], ["", "", ""]]]];
-						turn = false;
-					}*/
-					if (tie()) {
-						alert("Tie!");
-						grid = [[[["", "", ""], ["", "", ""], ["", "", ""]], [["", "", ""], ["", "", ""], ["", "", ""]], [["", "", ""], ["", "", ""], ["", "", ""]] ], [ [["", "", ""], ["", "", ""], ["", "", ""]], [["", "", ""], ["", "", ""], ["", "", ""]], [["", "", ""], ["", "", ""], ["", "", ""]] ], [ [["", "", ""], ["", "", ""], ["", "", ""]], [["", "", ""], ["", "", ""], ["", "", ""]], [["", "", ""], ["", "", ""], ["", "", ""]]]];
-						turn = false;
-					}
-					$("table").each(function(index, value){
-						if($(value).data("row") == i && $(value).data("column") == j){
-							console.log(value, $(value).find("td"));
-							$(value).find("td").addClass("possible");
+					if($(this).hasClass("possible")){
+						var row = Number($($(this).parents("table:not(#ultimate)")[0]).data("row"));
+						var col = Number($($(this).parents("table:not(#ultimate)")[0]).data("column"));
+						var i = Number($(this).data("row"));
+						var j = Number($(this).data("column"));
+						console.log(row, col, i, j);
+						if (grid[row][col][i][j] === "") {
+							$("#turn").html(turn ? "O" : "X");
+							turn = !turn;
+							grid[row][col][i][j] = turn ? "O" : "X";
+							$(".possible").removeClass("possible");
+							$(this).addClass(grid[row][col][i][j]);
 						}
-					});
+						if (winSquare(row, col)) {
+							
+						}
+						if (winner()) {
+							alert((turn ? "O" : "X") + " won! Congrats!");
+							grid = [[[["", "", ""], ["", "", ""], ["", "", ""]], [["", "", ""], ["", "", ""], ["", "", ""]], [["", "", ""], ["", "", ""], ["", "", ""]]], [[["", "", ""], ["", "", ""], ["", "", ""]], [["", "", ""], ["", "", ""], ["", "", ""]], [["", "", ""], ["", "", ""], ["", "", ""]] ], [[["", "", ""], ["", "", ""], ["", "", ""]], [["", "", ""], ["", "", ""], ["", "", ""]], [["", "", ""], ["", "", ""], ["", "", ""]]]];
+							turn = false;
+						}
+						if (tie()) {
+							alert("Tie!");
+							grid = [[[["", "", ""], ["", "", ""], ["", "", ""]], [["", "", ""], ["", "", ""], ["", "", ""]], [["", "", ""], ["", "", ""], ["", "", ""]]], [[["", "", ""], ["", "", ""], ["", "", ""]], [["", "", ""], ["", "", ""], ["", "", ""]], [["", "", ""], ["", "", ""], ["", "", ""]] ], [[["", "", ""], ["", "", ""], ["", "", ""]], [["", "", ""], ["", "", ""], ["", "", ""]], [["", "", ""], ["", "", ""], ["", "", ""]]]];
+							turn = false;
+						}
+						$("table").each(function(index, value) {
+							if ($(value).data("row") == i && $(value).data("column") == j) {
+								if ($.isArray(grid[i][j])) {
+									$(value).find("td:not(.X, .O)").addClass("possible");
+								}
+								else{
+									$("td:not(.X, .O)").addClass("possible");
+								}
+							}
+						});
+					}
 				});
 			});
 			function tie() {
 				var result = true;
 				for (var row = 0; row < 3; row++) {
 					for (var col = 0; col < 3; col++) {
-						for (var i = 0; i < 3; i++) {
-							for (var j = 0; j < 3; j++) {
-								if (grid[row][col][i][j] === "") {
-									result = false;
-								}
-							}
+						if ($.isArray(grid[row][col])) {
+							result = false;
 						}
 					}
 				}
 				return result;
 			}
 			function winner() {
+				var result = false;
+				for (var i = 0; i < 3; i++) {
+					result = result || JSON.stringify(grid[i]) === JSON.stringify(["X","X","X"]);
+					result = result || JSON.stringify(grid[i]) === JSON.stringify(["O","O","O"]);
+			
+					result = result || JSON.stringify([grid[0][i], grid[1][i], grid[2][i]]) === JSON.stringify(["X", "X", "X"]);
+					result = result || JSON.stringify([grid[0][i], grid[1][i], grid[2][i]]) === JSON.stringify(["O", "O", "O"]);
+				}
+				result = result || JSON.stringify([grid[0][0], grid[1][1], grid[2][2]]) === JSON.stringify(["X", "X", "X"]);
+				result = result || JSON.stringify([grid[0][0], grid[1][1], grid[2][2]]) === JSON.stringify(["O", "O", "O"]);
+			
+				result = result || JSON.stringify([grid[0][2], grid[1][1], grid[2][0]]) === JSON.stringify(["X", "X", "X"]);
+				result = result || JSON.stringify([grid[0][2], grid[1][1], grid[2][0]]) === JSON.stringify(["O", "O", "O"]);
+				return result;
+			}
+			function winSquare(row, col) {
+				console.log(row, col);
 				var result = false;
 				for (var i = 0; i < 3; i++) {
 					result = result || JSON.stringify(grid[i]) === JSON.stringify(["X","X","X"]);
