@@ -165,7 +165,7 @@
 									$(value).find("td:not(.X, .O)").addClass("possible");
 								}
 								else {
-									$("td:not(.X, .O)").not($(value).find("td:not(.X, .O)")).addClass("possible");
+									$("table table:not(.X, .O) td:not(.X, .O)").addClass("possible");
 								}
 							}
 						});
