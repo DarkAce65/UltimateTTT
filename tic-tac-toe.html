@@ -126,9 +126,10 @@
 	</head>
 	<body>
 		<div style="text-align: center">
-			<h1>Ultimate Tic Tac Toe</h1>
+			<h1 id="title">Ultimate Tic Tac Toe</h1>
 			<table id="ultimate" style="margin: auto"></table>
 			<h3>It is <span id="turn" style="color: red">X</span>'s turn.</h3>
+			<button onClick="reset()" style="display: none;">Play again</button>
 		</div>
 		<script>
 			var turn = true; // true: X, false: O
@@ -149,6 +150,17 @@
 					[["", "", ""], ["", "", ""], ["", "", ""]]  // 2, 2
 				]
 			];
+
+			function reset(){
+				grid = [[[["", "", ""], ["", "", ""], ["", "", ""]], [["", "", ""], ["", "", ""], ["", "", ""]], [["", "", ""], ["", "", ""], ["", "", ""]]], [[["", "", ""], ["", "", ""], ["", "", ""]], [["", "", ""], ["", "", ""], ["", "", ""]], [["", "", ""], ["", "", ""], ["", "", ""]] ], [[["", "", ""], ["", "", ""], ["", "", ""]], [["", "", ""], ["", "", ""], ["", "", ""]], [["", "", ""], ["", "", ""], ["", "", ""]]]];
+				$("#title").html("Ultimate Tic Tac Toe");
+				$("h3").css("display", "block");
+				$("button").css("display", "none");
+				$(".X").removeClass("X");
+				$(".O").removeClass("O");
+				$("table table td").addClass("possible");
+				turn = true;
+			}
 			
 			$(document).ready(function() {
 				var innerhtml = "";
@@ -167,7 +179,7 @@
 					}
 					innerhtml += "</tr>"
 				}
-			
+				
 				$("#ultimate").html(innerhtml);
 				$("table table td").addClass("possible");
 
@@ -177,9 +189,6 @@
 						var col = Number($($(this).parents("table:not(#ultimate)")[0]).data("column"));
 						var i = Number($(this).data("row"));
 						var j = Number($(this).data("column"));
-
-						$("#turn").html(turn ? "O" : "X");
-						$("#turn").css("color", turn ? "blue" : "red");
 						turn = !turn;
 						grid[row][col][i][j] = turn ? "O" : "X";
 						$(".possible").removeClass("possible");
@@ -195,14 +204,14 @@
 						}
 
 						if (winner()) {
-							alert((turn ? "O" : "X") + " won! Congrats!");
-							grid = [[[["", "", ""], ["", "", ""], ["", "", ""]], [["", "", ""], ["", "", ""], ["", "", ""]], [["", "", ""], ["", "", ""], ["", "", ""]]], [[["", "", ""], ["", "", ""], ["", "", ""]], [["", "", ""], ["", "", ""], ["", "", ""]], [["", "", ""], ["", "", ""], ["", "", ""]] ], [[["", "", ""], ["", "", ""], ["", "", ""]], [["", "", ""], ["", "", ""], ["", "", ""]], [["", "", ""], ["", "", ""], ["", "", ""]]]];
-							turn = false;
+							$("#title").html((turn ? "O" : "X") + " won! Congrats!");
+							$("h3").css("display", "none");
+							$("button").css("display", "inline-block");
 						}
 						else if (tie()) {
-							alert("Tie!");
-							grid = [[[["", "", ""], ["", "", ""], ["", "", ""]], [["", "", ""], ["", "", ""], ["", "", ""]], [["", "", ""], ["", "", ""], ["", "", ""]]], [[["", "", ""], ["", "", ""], ["", "", ""]], [["", "", ""], ["", "", ""], ["", "", ""]], [["", "", ""], ["", "", ""], ["", "", ""]] ], [[["", "", ""], ["", "", ""], ["", "", ""]], [["", "", ""], ["", "", ""], ["", "", ""]], [["", "", ""], ["", "", ""], ["", "", ""]]]];
-							turn = false;
+							$("#title").html("The match ended with a tie!");
+							$("h3").css("display", "none");
+							$("button").css("display", "inline-block");
 						}
 						else {
 							$("table").each(function(index, value) {
@@ -215,6 +224,8 @@
 									}
 								}
 							});
+							$("#turn").html(turn ? "X" : "O");
+							$("#turn").css("color", turn ? "red" : "blue");
 						}
 					}
 				});
