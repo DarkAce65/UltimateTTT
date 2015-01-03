@@ -36,11 +36,14 @@
 						transition: 0.25s;
 			}
 
+			.possible{
+				cursor: pointer;
+			}
+
 			.possible::after{
 				background: #FFF98C;
 				width: 45px;
 				height: 45px;
-				cursor: pointer;
 				-webkit-animation: blink 1.5s infinite;
 				   -moz-animation: blink 1.5s infinite;
 					 -o-animation: blink 1.5s infinite;
@@ -105,29 +108,16 @@
 				}
 
 				.possible::after{
-					background: #FFF98C;
 					width: 20px;
 					height: 20px;
-					cursor: pointer;
-					-webkit-animation: blink 1.5s infinite;
-					   -moz-animation: blink 1.5s infinite;
-						 -o-animation: blink 1.5s infinite;
-							animation: blink 1.5s infinite;
 				}
 
-				@-webkit-keyframes 'blink'{0% {opacity:1;} 50% {opacity:0.7;} 100% {opacity:1;}}
-				   @-moz-keyframes 'blink'{0% {opacity:1;} 50% {opacity:0.7;} 100% {opacity:1;}}
-					 @-o-keyframes 'blink'{0% {opacity:1;} 50% {opacity:0.7;} 100% {opacity:1;}}
-						@keyframes 'blink'{0% {opacity:1;} 50% {opacity:0.7;} 100% {opacity:1;}}
-
 				.X::after{
-					background: #FFA38C;
 					width: 20px;
 					height: 20px;
 				}
 
 				.O::after{
-					background: #8CA3FF;
 					width: 20px;
 					height: 20px;
 				}
