@@ -64,16 +64,15 @@ $(document).ready(function() {
 				grid[row][col] = turn ? "O" : "X";
 				$("table table[data-row=" + row + "][data-column=" + col + "]").addClass(turn ? "O" : "X");
 			}
+			if ($.isArray(grid[row][col])) {
+				if (grid[row][col][0].indexOf("") === -1 &&
+					grid[row][col][1].indexOf("") === -1 &&
+					grid[row][col][2].indexOf("") === -1) {
 
-			if ($.isArray(grid[i][j])) {
-				var tableGrid = grid[i][j];
-				if (tableGrid[0].indexOf("") === -1 &&
-					tableGrid[1].indexOf("") === -1 &&
-					tableGrid[2].indexOf("") === -1) {
-
-					grid[i][j] = "";
+					grid[row][col] = "";
 				}
 			}
+
 			if (winner()) {
 				$("#TTT-winner").html((turn ? "O" : "X") + " won! Congrats!");
 				$("#TTT-turnText").css("display", "none");
