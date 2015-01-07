@@ -65,6 +65,15 @@ $(document).ready(function() {
 				$("table table[data-row=" + row + "][data-column=" + col + "]").addClass(turn ? "O" : "X");
 			}
 
+			if ($.isArray(grid[i][j])) {
+				var tableGrid = grid[i][j];
+				if (tableGrid[0].indexOf("") === -1 &&
+					tableGrid[1].indexOf("") === -1 &&
+					tableGrid[2].indexOf("") === -1) {
+
+					grid[i][j] = "";
+				}
+			}
 			if (winner()) {
 				$("#TTT-winner").html((turn ? "O" : "X") + " won! Congrats!");
 				$("#TTT-turnText").css("display", "none");
@@ -76,15 +85,6 @@ $(document).ready(function() {
 				$("#TTT-button").css("display", "inline-block");
 			}
 			else {
-				if ($.isArray(grid[i][j])) {
-					var tableGrid = grid[i][j];
-					if (tableGrid[0].indexOf("") === -1 &&
-						tableGrid[1].indexOf("") === -1 &&
-						tableGrid[2].indexOf("") === -1) {
-
-						grid[i][j] = "";
-					}
-				}
 				if ($.isArray(grid[i][j])) {
 					$("table table[data-row=" + i + "][data-column=" + j + "] td:not(.X, .O)").addClass("possible");
 				}
