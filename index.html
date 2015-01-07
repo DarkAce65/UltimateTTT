@@ -200,22 +200,8 @@
 
 						if (winSquare(row, col)) {
 							grid[row][col] = turn ? "O" : "X";
-							$("table").each(function(index, value) {
-								if ($(value).data("row") == row && $(value).data("column") == col) {
-									$(value).addClass(turn ? "O" : "X");
-								}
-							});
+							$("table table[data-row=" + row + "][data-column=" + col + "]").addClass(turn ? "O" : "X");
 						}
-
-						$("table table").each(function(index, value) {
-							var tableGrid = grid[Number($(value).data("row"))][Number($(value).data("column"))];
-							if (tableGrid[0].indexOf("") === -1 &&
-								tableGrid[1].indexOf("") === -1 &&
-								tableGrid[2].indexOf("") === -1) {
-
-								grid[Number($(value).data("row"))][Number($(value).data("column"))] = "";
-							}
-						});
 
 						if (winner()) {
 							$("#title").html((turn ? "O" : "X") + " won! Congrats!");
@@ -228,16 +214,21 @@
 							$("button").css("display", "inline-block");
 						}
 						else {
-							$("table").each(function(index, value) {
-								if ($(value).data("row") == i && $(value).data("column") == j) {
-									if ($.isArray(grid[i][j])) {
-										$(value).find("td:not(.X, .O)").addClass("possible");
-									}
-									else {
-										$("table table:not(.X, .O) td:not(.X, .O)").addClass("possible");
-									}
+							if ($.isArray(grid[i][j])) {
+								var tableGrid = grid[i][j];
+								if (tableGrid[0].indexOf("") === -1 &&
+									tableGrid[1].indexOf("") === -1 &&
+									tableGrid[2].indexOf("") === -1) {
+
+									grid[i][j] = "";
 								}
-							});
+							}
+							if ($.isArray(grid[i][j])) {
+								$("table table[data-row=" + i + "][data-column=" + j + "] td:not(.X, .O)").addClass("possible");
+							}
+							else {
+								$("table table:not(.X, .O) td:not(.X, .O)").addClass("possible");
+							}
 							$("#turn").html(turn ? "X" : "O");
 							$("#turn").css("color", turn ? "red" : "blue");
 						}
