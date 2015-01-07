@@ -19,9 +19,9 @@ var grid = [
 
 function reset(){
 	grid = [[[["", "", ""], ["", "", ""], ["", "", ""]], [["", "", ""], ["", "", ""], ["", "", ""]], [["", "", ""], ["", "", ""], ["", "", ""]]], [[["", "", ""], ["", "", ""], ["", "", ""]], [["", "", ""], ["", "", ""], ["", "", ""]], [["", "", ""], ["", "", ""], ["", "", ""]] ], [[["", "", ""], ["", "", ""], ["", "", ""]], [["", "", ""], ["", "", ""], ["", "", ""]], [["", "", ""], ["", "", ""], ["", "", ""]]]];
-	$("#title").html("Ultimate Tic Tac Toe");
-	$("h3").css("display", "block");
-	$("button").css("display", "none");
+	$("#TTT-winner").html("");
+	$("#TTT-turnText").css("display", "block");
+	$("#TTT-button").css("display", "none");
 	$(".X").removeClass("X");
 	$(".O").removeClass("O");
 	$("table table td").addClass("possible");
@@ -66,14 +66,14 @@ $(document).ready(function() {
 			}
 
 			if (winner()) {
-				$("#title").html((turn ? "O" : "X") + " won! Congrats!");
-				$("h3").css("display", "none");
-				$("button").css("display", "inline-block");
+				$("#TTT-winner").html((turn ? "O" : "X") + " won! Congrats!");
+				$("#TTT-turnText").css("display", "none");
+				$("#TTT-button").css("display", "inline-block");
 			}
 			else if (tie()) {
-				$("#title").html("The match ended with a tie!");
-				$("h3").css("display", "none");
-				$("button").css("display", "inline-block");
+				$("#TTT-winner").html("The match ended with a tie!");
+				$("#TTT-turnText").css("display", "none");
+				$("#TTT-button").css("display", "inline-block");
 			}
 			else {
 				if ($.isArray(grid[i][j])) {
