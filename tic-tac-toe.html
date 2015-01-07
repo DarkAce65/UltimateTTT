@@ -207,16 +207,6 @@
 							});
 						}
 
-						$("table table").each(function(index, value) {
-							var tableGrid = grid[Number($(value).data("row"))][Number($(value).data("column"))];
-							if (tableGrid[0].indexOf("") === -1 &&
-								tableGrid[1].indexOf("") === -1 &&
-								tableGrid[2].indexOf("") === -1) {
-
-								grid[Number($(value).data("row"))][Number($(value).data("column"))] = "";
-							}
-						});
-
 						if (winner()) {
 							$("#title").html((turn ? "O" : "X") + " won! Congrats!");
 							$("h3").css("display", "none");
@@ -230,6 +220,15 @@
 						else {
 							$("table").each(function(index, value) {
 								if ($(value).data("row") == i && $(value).data("column") == j) {
+									if ($.isArray(grid[i][j])) {
+										var tableGrid = grid[i][j];
+										if (tableGrid[0].indexOf("") === -1 &&
+											tableGrid[1].indexOf("") === -1 &&
+											tableGrid[2].indexOf("") === -1) {
+
+											grid[i][j] = "";
+										}
+									}
 									if ($.isArray(grid[i][j])) {
 										$(value).find("td:not(.X, .O)").addClass("possible");
 									}
